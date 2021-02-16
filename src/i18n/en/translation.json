@@ -1,0 +1,15 @@
+{
+    "lable": {
+        "login": "Login",
+        "username": "username",
+        "password": "Password",
+        "familyPortal": "Family Portal"
+    },
+    "placeholder": {
+        "usernameRequired": "User name required",
+        "passwordRequired": "Password required",
+        "typeUsername": "Type your username",
+        "typePassword": "Type your password"
+    }
+    
+}
