@@ -8,12 +8,21 @@ import 'vendor/css-hamburgers/hamburgers.min.css';
 import 'vendor/animsition/css/animsition.min.css';
 import 'vendor/select2/select2.min.css';
 import 'vendor/daterangepicker/daterangepicker.css';
-import {useTranslation} from 'react-i18next';
+// import {useTranslation} from 'react-i18next';
+import {withTranslation} from 'react-i18next';
+import { Component } from 'react';
 
 
 
-const LogIn = () => {
-    const {t} = useTranslation('translations');
+
+// const LogIn = () => {
+class LogIn extends Component{
+	constructor(props){
+		super(props);
+	}
+    // const {t} = useTranslation('translations');
+	render(){
+		const {t} = this.props;
     return (
         <div class="limiter">
         <div class="container-login100" >
@@ -83,6 +92,7 @@ const LogIn = () => {
 	
 
     );
+				}
 };
-
-export default LogIn;
+export default withTranslation()(LogIn);
+// export default LogIn;
