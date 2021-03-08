@@ -11,7 +11,7 @@ function App() {
       <LogIn setToken={setToken}/>
     );
   }else{
-    return <></>;
+    return <>Logged in!</>;
   }
 }
 
