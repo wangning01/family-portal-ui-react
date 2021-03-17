@@ -8,42 +8,63 @@ import 'vendor/css-hamburgers/hamburgers.min.css';
 import 'vendor/animsition/css/animsition.min.css';
 import 'vendor/select2/select2.min.css';
 import 'vendor/daterangepicker/daterangepicker.css';
-import {withTranslation} from 'react-i18next';
-import { Component } from 'react';
+import {useTranslation} from 'react-i18next';
+import { useState } from 'react';
+import {useFormik} from 'formik'
 
 
 
 
-class LogIn extends Component{
-	constructor(props){
-		super(props);
-		this.state = {
-			username: '',
-			password: '',
+function LogIn() {
+		const [username, setUsername] = useState();
+		const [password, setPassword] = useState();
+		const {t} = useTranslation();
+		const validate = (values) => {
+			const errors = {};
+			if (!values.username) {
+				errors.username = "Required";
+			}
+
+			if (!values.password) {
+				errors.password = "Required";
+			}
+			return errors;
 		}
-	}
-	render(){
-		const {t} = this.props;
+		const {handleSubmit, handleChange, hanndleBlur, touched, values, errors}
+			= useFormik(
+				{
+					initialValues: {username: '', password: ''}, 
+					validate, 
+					onSubmit: (values)=>{console.log(JSON.stringify(values));}
+				});
 		return (
 			<div class="limiter">
 			<div class="container-login100" >
 				<div class="wrap-login100 p-l-55 p-r-55 p-t-55 p-b-54">
-					<form class="login100-form validate-form">
+					<form onSubmit={handleSubmit} class="login100-form validate-form">
 						<span class="login100-form-title p-b-49">
 							{t('lable.familyPortal')}
 						</span>
 
-						<div class="wrap-input100 validate-input m-b-23" data-validate = {t('placeholder.usernameRequired')}>
-							<span class="label-input100">{t('lable.username')}</span>
-							<input class="input100" type="text" name="username" value={this.username} placeholder={t('placeholder.typeUsername')} />
-							<span class="focus-input100" data-symbol="&#xf206;"></span>
+						<div class="wrap-input100 validate-input m-b-13 " >
+							{/* <span class="label-input100">{t('lable.username')}</span> */}
+							<i class="fa fa-user icon"></i>
+							<input class="input100" type="text" name="username"  onChange={handleChange}  placeholder={t('placeholder.typeUsername')} />
+							{/* <span class="focus-input100" data-symbol="&#xf206;" /> */}
+							{errors.username ? <div class="error p-t-14">{errors.username}</div> : null}
 						</div>
+						
+						
+						
 
-						<div class="wrap-input100 validate-input" data-validate={t('placeholder.passwordRequired')}>
-							<span class="label-input100">{t('lable.password')}</span>
-							<input class="input100" type="password" name="pass" value={this.password} placeholder={t('placeholder.typePassword')}/>
-							<span class="focus-input100" data-symbol="&#xf190;"></span>
+						<div class="wrap-input100 validate-input" >
+							{/* <span class="label-input100">{t('lable.password')}</span> */}
+							<i class="fa fa-lock icon"></i>
+							<input class="input100" type="password" name="password"  onChange={handleChange}  placeholder={t('placeholder.typePassword')}/>
+							{/* <span class="focus-input100" data-symbol="&#xf190;"></span> */}
+							{errors.password ? <div class="error p-t-14">{errors.password}</div> : null}
 						</div>
+						
 						
 						<div class="text-right p-t-8 p-b-31">
 						</div>
@@ -60,8 +81,7 @@ class LogIn extends Component{
 				</div>
 			</div>
 		</div>
-    );
-				}
-};
-export default withTranslation()(LogIn);
+    	);
+}
+export default LogIn;
 // export default LogIn;
