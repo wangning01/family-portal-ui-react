@@ -1,17 +1,21 @@
 import 'App.css';
-import {Route, HashRouter} from 'react-router-dom';
-// import SignIn from 'components/SignIn';
+import {useContext} from 'react';
 import LogIn from 'components/LogIn';
-import {useState} from 'react';
+import {PortalContext} from 'components/PortalContext';
+import Home from 'components/Home';
+
 
 function App() {
-  const [token, setToken] = useState();
-  if(!token){
+   const {portalState} = useContext(PortalContext);
+  
+  if(!portalState || !portalState.isLoggedIn){
     return (
-      <LogIn setToken={setToken}/>
+      <LogIn />
     );
   }else{
-    return <>Logged in!</>;
+    return (
+        <Home />
+    );
   }
 }
 

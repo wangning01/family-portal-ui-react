@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'i18n/i18n';
+import PortalContextProvider from 'components/PortalContext';
 
 ReactDOM.render(
   <React.StrictMode>
+    <PortalContextProvider>
     <App />
+    </PortalContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -9,16 +9,18 @@ import 'vendor/animsition/css/animsition.min.css';
 import 'vendor/select2/select2.min.css';
 import 'vendor/daterangepicker/daterangepicker.css';
 import {useTranslation} from 'react-i18next';
-import { useState } from 'react';
-import {useFormik} from 'formik'
+import {useState, useContext} from 'react';
+import {useFormik} from 'formik';
+import {PortalContext} from 'components/PortalContext';
+import axios from 'axios';
 
 
-
-
-function LogIn() {
+export default function LogIn() {
+		const {setPortalState} = useContext(PortalContext);
 		const [username, setUsername] = useState();
 		const [password, setPassword] = useState();
 		const {t} = useTranslation();
+		
 		const validate = (values) => {
 			const errors = {};
 			if (!values.username) {
@@ -35,8 +37,41 @@ function LogIn() {
 				{
 					initialValues: {username: '', password: ''}, 
 					validate, 
-					onSubmit: (values)=>{console.log(JSON.stringify(values));}
+					onSubmit: (values)=>{
+						login({username: username, password: password});
+					}
+
 				});
+		const handleUsernameChange = (e) => {
+			setUsername(e.target.value);
+			handleChange(e);
+		};
+		const handlePasswordChange = (e) => {
+			setPassword(e.target.value);
+			handleChange(e);
+		};
+		function login(credential){
+			const formData = new URLSearchParams();
+			formData.append('username', credential.username);
+			formData.append('password', credential.password);
+			axios.post('/api/login', formData)
+			.then((response) => {
+				setPortalState(
+					{
+						isLoggedIn: true,
+						token: response.data.jwtToken,
+						username: credential.username
+					}
+				);
+				// setIsLoggedIn(true);
+				// setToken(response.data.jwtToken);
+			},
+			(error) => {
+				console.log(error);
+			});
+		};
+
+
 		return (
 			<div class="limiter">
 			<div class="container-login100" >
@@ -47,21 +82,20 @@ function LogIn() {
 						</span>
 
 						<div class="wrap-input100 validate-input m-b-13 " >
-							{/* <span class="label-input100">{t('lable.username')}</span> */}
 							<i class="fa fa-user icon"></i>
-							<input class="input100" type="text" name="username"  onChange={handleChange}  placeholder={t('placeholder.typeUsername')} />
-							{/* <span class="focus-input100" data-symbol="&#xf206;" /> */}
+							<input class="input100" type="text" name="username"  
+								onChange={handleUsernameChange}  placeholder={t('placeholder.typeUsername')} 
+								/>
 							{errors.username ? <div class="error p-t-14">{errors.username}</div> : null}
 						</div>
 						
 						
-						
 
 						<div class="wrap-input100 validate-input" >
-							{/* <span class="label-input100">{t('lable.password')}</span> */}
 							<i class="fa fa-lock icon"></i>
-							<input class="input100" type="password" name="password"  onChange={handleChange}  placeholder={t('placeholder.typePassword')}/>
-							{/* <span class="focus-input100" data-symbol="&#xf190;"></span> */}
+							<input class="input100" type="password" name="password"  
+								onChange={handlePasswordChange}  placeholder={t('placeholder.typePassword')}
+								/>
 							{errors.password ? <div class="error p-t-14">{errors.password}</div> : null}
 						</div>
 						
@@ -83,5 +117,4 @@ function LogIn() {
 		</div>
     	);
 }
-export default LogIn;
 // export default LogIn;

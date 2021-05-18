@@ -3,7 +3,9 @@
         "login": "Login",
         "username": "User Name",
         "password": "Password",
-        "familyPortal": "Family Portal"
+        "familyPortal": "Family Portal",
+        "home": "Home",
+        "logout": "Log out"
     },
     "placeholder": {
         "usernameRequired": "User name required",
